@@ -6,9 +6,9 @@ import { Props, ConfiguredSentence, Boundary } from '../definitions';
 import { canvasConfig } from '../configs';
 
 export const CanvasWords: React.FC<Props> = ({
-  canvasWidth,
-  canvasHeight,
   backgroundColor,
+  canvasHeight,
+  canvasWidth,
   className,
   sentences,
   stepNumberForReturn = canvasConfig.defaults.stepNumberForReturn,
@@ -133,9 +133,13 @@ export const CanvasWords: React.FC<Props> = ({
       contextParam.clearRect(0, 0, canvasWidth, canvasHeight);
 
       const updatedSentencesParam = configuredSentencesParam.map((sentence) => {
+        const printOption = sentence.printOption ?? canvasConfig.defaults.printOption;
+        contextParam.strokeStyle = sentence.color ?? canvasConfig.defaults.color;
+        contextParam.fillStyle = sentence.color ?? canvasConfig.defaults.color;
+
         const newCharacters = sentence.characters.map((character) => {
           contextParam.font = coordinateHelper.getFont(sentence.fontSize, sentence.fontFamily);
-          contextParam.fillText(
+          contextParam[printOption](
             character.value,
             character.coordinates.x,
             character.coordinates.y,
@@ -216,8 +220,8 @@ export const CanvasWords: React.FC<Props> = ({
       };
     };
 
-    canvas?.addEventListener('mousemove', mouseMove);
-    return () => canvas?.removeEventListener('mousemove', mouseMove);
+    document?.addEventListener('mousemove', mouseMove);
+    return () => document?.removeEventListener('mousemove', mouseMove);
   }, [canvas]);
 
   /**
@@ -245,8 +249,8 @@ export const CanvasWords: React.FC<Props> = ({
   return (
     <canvas
       style={{ backgroundColor, margin: 0, padding: 0, display: 'block' }}
-      ref={setCanvas}
       className={className}
+      ref={setCanvas}
     />
   );
 };

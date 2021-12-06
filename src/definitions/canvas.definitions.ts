@@ -1,8 +1,12 @@
+export type PrintOption = 'fillText' | 'strokeText';
+
 export interface Sentence {
   coordinates: Coordinates;
   fontFamily: string;
   fontSize: string;
   text: string;
+  color?: string | undefined;
+  printOption?: PrintOption;
 }
 
 export interface Props {

@@ -31,6 +31,8 @@ const App = () => (
         fontFamily: 'sans-serif',
         fontSize: '20px',
         text: 'Test sentence',
+        color: 'black',
+        printOption: 'fillText',
       },
     ]}
   />
